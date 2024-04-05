@@ -1,0 +1,83 @@
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+from kivy.uix.button import Button
+from kivy.uix.dropdown import DropDown
+
+class OneRepMaxCalculator(BoxLayout):
+    def __init__(self, **kwargs):
+        super(OneRepMaxCalculator, self).__init__(**kwargs)
+        self.orientation = 'vertical'
+
+        weight_label = Label(text='Enter weight lifted:')
+        self.add_widget(weight_label)
+
+class OneRepMaxCalculator(BoxLayout):
+    def __init__(self, **kwargs):
+        super(OneRepMaxCalculator, self).__init__(**kwargs)
+        self.orientation = 'vertical'
+
+class OneRepMaxCalculator(App):
+    def build(self):
+        self.layout = BoxLayout(orientation='vertical')
+
+        weight_input_layout = BoxLayout(orientation='horizontal')
+        weight_label = Label(text='Enter weight lifted:')
+        weight_input_layout.add_widget(weight_label)
+        self.weight_input = TextInput()
+        weight_input_layout.add_widget(self.weight_input)
+        self.layout.add_widget(weight_input_layout)
+        
+        reps_input_layout = BoxLayout(orientation='horizontal')
+        reps_label = Label(text='Enter repetitions:')
+        reps_input_layout.add_widget(reps_label)
+        self.reps_input = TextInput()
+        reps_input_layout.add_widget(self.reps_input)
+        self.layout.add_widget(reps_input_layout)
+
+        unit_input_layout = BoxLayout(orientation='horizontal')
+        unit_label = Label(text='Select unit:')
+        unit_input_layout.add_widget(unit_label)
+
+        self.unit_dropdown = DropDown()
+        
+        for unit in ['kg', 'lbs']:
+            button = Button(text=unit, size_hint_y=None, height=40)
+            button.bind(on_release=lambda btn: self.unit_dropdown.select(btn.text))
+            self.unit_dropdown.add_widget(button)
+        
+        self.unit_button = Button(text='Select unit')
+        self.unit_button.bind(on_release=self.unit_dropdown.open)
+        self.unit_dropdown.bind(on_select=lambda instance, x: setattr(self.unit_button, 'text', x))
+        unit_input_layout.add_widget(self.unit_button)
+        self.layout.add_widget(unit_input_layout)
+
+        calculate_button = Button(text='Calculate 1RM')
+        calculate_button.bind(on_press=self.calculate_max)
+        self.layout.add_widget(calculate_button)
+
+        self.result_label = Label(text='')
+        self.layout.add_widget(self.result_label)
+
+        return self.layout
+
+    def calculate_max(self, instance):
+        weight = float(self.weight_input.text)
+        reps = int(self.reps_input.text)
+        selected_unit = self.unit_button.text
+
+        if selected_unit == 'kg':
+            one_rep_max = weight / (1.0278 - 0.0278 * reps)
+            unit_str = 'kg'
+        elif selected_unit == 'lbs':
+            one_rep_max = weight * 2.20462 / (1.0278 - 0.0278 * reps)
+            unit_str = 'lbs'
+        else:
+            self.result_label.text = 'Invalid unit, please select kg or lbs'
+            return
+
+        self.result_label.text = f'Your one-rep max is: {one_rep_max:.2f} {unit_str}'
+    
+if __name__ == '__main__':
+    OneRepMaxCalculator().run()
