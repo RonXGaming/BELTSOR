@@ -1,0 +1,115 @@
+MainScreen:
+<MainScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 0, 50
+
+        Label:
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: 600
+            spacing: 20
+
+            Button:
+                text: 'Open One Rep Max Calculator'
+                size_hint: None, None
+                size: 300, 100
+                background_color: 0.2, 0.6, 0.8, 1
+                pos_hint: {'center_x': 0.5}
+                on_press: root.open_calculator()
+
+            Button:
+                text: 'Connect to BELTSOR'
+                size_hint: None, None
+                size: 300, 100
+                background_color: 0.8, 0.6, 0.2, 1
+                pos_hint: {'center_x': 0.5}
+                on_press: root.connect_to_beltsor()
+
+            Button:
+                text: 'Close Application'
+                size_hint: None, None
+                size: 300, 100
+                background_color: 0.8, 0.2, 0.2, 1
+                pos_hint: {'center_x': 0.5}
+                on_press: app.stop()
+
+        Label:
+
+<ConnectionStatusScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: dp(20)
+        spacing: dp(10)
+
+        Label:
+            text: ''
+            color: 0.2, 0.2, 0.2, 1
+            halign: 'center'
+            font_size: sp(14)
+
+        Label:
+            text: 'Instructions:\n1. Please make sure you are wearing BELTSOR properly\n2. Please do the conventional deadlift when wearing BELTSOR.\n3. Please note that when BELTSOR alarms you, \n it has detected poor lower back posture.'
+            color: 0.2, 0.2, 0.2, 1
+            halign: 'center'
+            font_size: sp(14)
+
+        Label:
+            text: 'WARNING: If you still continue to do your \n deadlift exercise even when BELTSOR has detected poor \n lower back posture, you are at risk of injuring \n your lower back.This can result in strains, \n sprains, or more serious injuries. It is important \n to maintain a neutral spine throughout the \n lift to prevent injury and maximize the effectiveness \n of the exercise.'
+            color: 0.2, 0.2, 0.2, 1
+            halign: 'center'
+            font_size: sp(14)
+
+        Button:
+            text: 'Go Back'
+            size_hint_y: None
+            height: dp(50)
+            background_color: 0.2, 0.6, 0.8, 1
+            font_size: sp(14)
+            on_press: root.go_back()
+
+<OneRepMaxCalculator>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: 'Enter weight lifted:'
+                color: 0.2, 0.2, 0.2, 1
+            TextInput:
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: 'Enter repetitions:'
+                color: 0.2, 0.2, 0.2, 1
+            TextInput:
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: 'Select unit:'
+                color: 0.2, 0.2, 0.2, 1
+            Button:
+                text: 'Select unit'
+                ound_color: 0.8, 0.6, 0.2, 1
+                on_release: dropdown.open()
+
+        Button:
+            text: 'Calculate 1RM'
+            background_color: 0.2, 0.6, 0.8, 1
+            on_press: root.calculate_max()
+
+        Label:
+            text: ''
+            color: 0.2, 0.2, 0.2, 1
+
+        Button:
+            text: 'Go Back'
+            size_hint_y: None
+            height: 50
+            background_color: 0.2, 0.6, 0.8, 1
+            on_press: root.go_back()
